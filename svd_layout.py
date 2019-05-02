@@ -9,11 +9,11 @@ from igraph import plot
 if len(sys.argv) > 1:
 	COUNT = int(sys.argv[1])
 	MIN_EDGE_VALUE = int(sys.argv[2])
-	LOG_FN = sys.argv[3]
+	PLOT_FN = sys.argv[3]
 else:
-	COUNT          = 10000 
+	COUNT          = 1000 
 	MIN_EDGE_VALUE = 4
-	LOG_FN = "cc_summary_res"
+	PLOT_FN = "test.pdf"
 
 EDGELIST_FN = "pol_300_year_00_50_new_weighted"
 
@@ -37,14 +37,9 @@ def testplot(graph, lo, filename="social_network.png"):
     # visual_style["margin"] = 100
     plot(graph, filename, layout=lo, vertex_size=4, edge_width=0, bbox=(600,1200)) 
 
-def plog(str, fo):
-	print(str)
-	fo.write(str+"\n")
-
-log_file = open("results/{}.txt".format(LOG_FN), "w")
 edge_list = pickle.load(open("data/{}.p".format(EDGELIST_FN), "rb"))
-plog("opened edgelist from: data/{}.p".format(EDGELIST_FN), log_file)
-plog("random draw of {}, threshold {}".format(COUNT, MIN_EDGE_VALUE), log_file)
+print("opened edgelist from: data/{}.p".format(EDGELIST_FN))
+print("random draw of {}, threshold {}".format(COUNT, MIN_EDGE_VALUE))
 
 el = random.sample(edge_list, COUNT)
 
@@ -140,4 +135,4 @@ for i in range(num_users, num_subs+num_users-1):
 
 g_layout = ig.Layout(layout.tolist())
 
-testplot(full_graph, g_layout, filename="test.pdf")
+testplot(full_graph, g_layout, filename=PLOT_FN)
